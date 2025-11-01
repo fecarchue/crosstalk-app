@@ -51,8 +51,23 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
         setInput('');
         setIsAiTyping(true);
 
-        // Mock AI 응답 (1.5초 딜레이)
-        setTimeout(getAiResponse, 1500);
+        // Mock AI 응답 (2초 딜레이)
+        setTimeout(getAiResponse, 2000);
+    };
+
+    // 이미지 전송 핸들러
+    const handleSendImage = () => {
+        // 첫 메시지 전송 시 채팅 시작
+        if (!hasStarted) {
+            setHasStarted(true);
+        }
+
+        const newImageMessage = { sender: 'user', type: 'image', image: '/images/message.png' };
+        setMessages(prev => [...prev, newImageMessage]);
+        setIsAiTyping(true);
+
+        // Mock AI 응답 (2초 딜레이)
+        setTimeout(getAiResponse, 2000);
     };
 
     // Enter 키 전송 (Shift+Enter는 줄바꿈)
@@ -68,8 +83,11 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
             {/* 채팅 헤더 - 모바일 최적화 */}
             <header className="flex-shrink-0 flex justify-between items-center p-3 bg-white/80 backdrop-blur-md shadow-sm z-10 sticky top-0">
                 <div>
-                    <h1 className="text-base font-medium text-purple-700">Crosstalk AI</h1>
-                    <span className="text-xs text-gray-500">전문 상담사</span>
+                    <img 
+                        src="/images/Layer2.png" 
+                        alt="Home" 
+                        className="h-5 w-auto"
+                    />
                 </div>
                 <button
                     onClick={onExit}
@@ -81,6 +99,22 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
 
             {/* 채팅 영역 */}
             <div className="flex-grow relative overflow-hidden">
+                {/* 배경 PNG - 채팅 시작 시 상단으로 이동 */}
+                <div 
+                    className="absolute flex items-center justify-center pointer-events-none transition-all duration-700"
+                    style={{
+                        top: !hasStarted ? '50%' : '60px',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)'
+                    }}
+                >
+                    <img 
+                        src="/images/aibackground.png" 
+                        alt="AI Background" 
+                        className="w-72 h-72"
+                    />
+                </div>
+
                 {/* GIF - 항상 absolute, top 값만 변경 */}
                 <div className={`gif-container-absolute ${!hasStarted ? '' : 'gif-moved'}`}>
                     <img 
@@ -93,8 +127,14 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
                 {/* 안내 텍스트 (시작 전에만) */}
                 {!hasStarted && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <p className="text-gray-500 text-center text-sm mt-48 px-4">
-                            메시지를 입력하여 대화를 시작하세요
+                        <p className="text-center mt-72">
+                            <span className="text-black text-xl">
+                                안녕하세요!
+                            </span>
+                            <br />
+                            <span className="text-gray-500 text-sm">
+                                오늘은 어떤 고민이 있으신가요?
+                            </span>
                         </p>
                     </div>
                 )}
@@ -105,20 +145,60 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
                         <div className="space-y-3 pb-4">
                             {messages.map((msg, index) => (
                                 <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div
-                                        className={`px-4 py-3 max-w-[75%] break-words rounded-2xl text-sm ${
-                                            msg.sender === 'user' 
-                                            ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-br-sm' 
-                                            : 'bg-gray-100 text-gray-800 rounded-bl-sm'
-                                        }`}
-                                    >
-                                        {msg.text}
-                                    </div>
+                                    {msg.type === 'image' ? (
+                                        // 이미지 메시지
+                                        <div className="flex justify-center w-full">
+                                            <img 
+                                                src={msg.image} 
+                                                alt="Sent" 
+                                                className="max-w-[70%]"
+                                            />
+                                        </div>
+                                    ) : (
+                                        // 텍스트 메시지
+                                        <div
+                                            className={`relative px-4 py-3 max-w-[75%] break-words text-sm ${
+                                                msg.sender === 'user' 
+                                                ? 'bg-gray-300 text-gray-900 rounded-2xl rounded-tr-sm' 
+                                                : 'bg-lime-200 text-gray-900 rounded-2xl rounded-tl-sm'
+                                            }`}
+                                        >
+                                            {/* 왓츠앱 스타일 날카로운 말풍선 꼬리 */}
+                                            {msg.sender === 'user' ? (
+                                                <div
+                                                    className="absolute"
+                                                    style={{
+                                                        top: 0,
+                                                        right: '-8px',
+                                                        width: 0,
+                                                        height: 0,
+                                                        borderLeft: '8px solid rgb(209 213 219)',
+                                                        borderTop: '8px solid transparent',
+                                                        borderBottom: '4px solid transparent',
+                                                    }}
+                                                ></div>
+                                            ) : (
+                                                <div
+                                                    className="absolute"
+                                                    style={{
+                                                        top: 0,
+                                                        left: '-8px',
+                                                        width: 0,
+                                                        height: 0,
+                                                        borderRight: '8px solid rgb(217 249 157)',
+                                                        borderTop: '8px solid transparent',
+                                                        borderBottom: '4px solid transparent',
+                                                    }}
+                                                ></div>
+                                            )}
+                                            {msg.text}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                             {isAiTyping && (
                                 <div className="flex justify-start">
-                                    <div className="px-4 py-3 bg-gray-100 rounded-2xl rounded-bl-sm">
+                                    <div className="px-4 py-3 bg-lime-200 rounded-2xl rounded-tl-sm">
                                         <div className="flex space-x-1">
                                             <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.3s]"></div>
                                             <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.15s]"></div>
@@ -135,23 +215,61 @@ function MobileChatPage({ messages, setMessages, activeScenarioIndex, scenarios,
             </div>
 
             {/* 입력 영역 - 모바일 최적화 */}
-            <footer className="flex-shrink-0 p-3 bg-white border-t border-gray-100 sticky bottom-0">
-                <div className="flex items-end space-x-2">
-                    <textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="메시지를 입력하세요..."
-                        rows="1"
-                        className="flex-grow p-3 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
-                        style={{ minHeight: '44px', maxHeight: '120px' }}
-                    ></textarea>
-                    <button
-                        onClick={handleSend}
-                        className="flex-shrink-0 p-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-md hover:shadow-lg transition-shadow active:scale-95"
-                        style={{ width: '44px', height: '44px' }}
+            <footer className="flex-shrink-0 p-3 bg-gray-200 border-t border-gray-300 sticky bottom-0">
+                <div className="flex items-center space-x-2">
+                    {/* Plus 버튼 */}
+                    <button 
+                        onClick={handleSendImage}
+                        className="p-2 flex-shrink-0"
                     >
-                        <Send size={20} />
+                        <img 
+                            src="/images/Plus.png" 
+                            alt="Plus" 
+                            className="w-5 h-5"
+                        />
+                    </button>
+                    
+                    {/* 텍스트 입력창 + Send 버튼 */}
+                    <div className="flex-grow flex items-center bg-white border border-gray-300 rounded-xl px-3 py-2">
+                        <textarea
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="메시지를 입력하세요..."
+                            rows="1"
+                            className="flex-grow resize-none focus:outline-none bg-transparent text-sm"
+                            style={{ minHeight: '28px', maxHeight: '120px' }}
+                        ></textarea>
+                        
+                        {/* Send 버튼 (입력창 안) */}
+                        <button
+                            onClick={handleSend}
+                            className="p-1 flex-shrink-0 ml-2"
+                        >
+                            <img 
+                                src="/images/Send.png" 
+                                alt="Send" 
+                                className="w-5 h-5"
+                            />
+                        </button>
+                    </div>
+                    
+                    {/* Image 버튼 */}
+                    <button className="p-2 flex-shrink-0">
+                        <img 
+                            src="/images/Image.png" 
+                            alt="Image" 
+                            className="w-5 h-5"
+                        />
+                    </button>
+                    
+                    {/* Camera 버튼 */}
+                    <button className="p-2 flex-shrink-0">
+                        <img 
+                            src="/images/Camera.png" 
+                            alt="Camera" 
+                            className="w-5 h-5"
+                        />
                     </button>
                 </div>
             </footer>
