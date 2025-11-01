@@ -33,8 +33,15 @@ function ChatPage({ messages, setMessages, activeScenarioIndex, scenarios, onExi
             aiText = '그렇군요. 좀 더 자세히 말씀해 주시겠어요? 당신의 이야기에 귀 기울이고 있어요.';
         }
 
-        const newAiMessage = { sender: 'ai', text: aiText };
-        setMessages(prev => [...prev, newAiMessage]);
+        // \a로 분리하여 여러 개의 메시지로 전송
+        const messageParts = aiText.split('\\a').filter(part => part.trim() !== '');
+        
+        messageParts.forEach((part, index) => {
+            setTimeout(() => {
+                const newAiMessage = { sender: 'ai', text: part.trim() };
+                setMessages(prev => [...prev, newAiMessage]);
+            }, index * 500); // 각 메시지를 0.5초 간격으로 전송
+        });
     };
 
     // 메시지 전송 핸들러
