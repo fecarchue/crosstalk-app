@@ -115,7 +115,7 @@ function ChatPage({ messages, setMessages, activeScenarioIndex, scenarios, onExi
                             alt="User"
                             className="w-10 h-10 rounded-full"
                         />
-                        <span className="text-dark text-sm font-medium">username</span>
+                        <span className="text-dark text-sm font-medium">이라에님 접속중</span>
                     </div>
                 </div>
             </div>
