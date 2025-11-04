@@ -13,12 +13,13 @@ function LoadingPage({ onLoadingComplete }) {
     }, [onLoadingComplete]);
 
     return (
-        <div className="min-h-screen w-full flex flex-col justify-center items-center bg-white relative overflow-hidden">
+        <div className="min-h-screen w-full flex flex-col justify-center items-center bg-black relative overflow-hidden">
             {/* 배경 이미지 */}
             <img 
                 src="/images/LoadingBackground.png" 
                 alt="Background" 
-                className="absolute inset-0 w-3/4 h-3/4 m-auto object-contain z-0"
+                className="absolute inset-0 m-auto object-contain z-0"
+                style={{ width: '82.5%', height: '82.5%' }}
             />
             
             {/* 중앙 GIF */}
@@ -32,14 +33,14 @@ function LoadingPage({ onLoadingComplete }) {
 
             {/* 하단 텍스트 영역 */}
             <div className="absolute bottom-32 left-0 right-0 z-20 flex flex-col items-center px-4">
-                {/* 고정 제목 (검은색) */}
-                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                {/* 고정 제목 (흰색, 자간 넓게) */}
+                <h2 className="text-xl md:text-2xl font-bold text-white mb-4 tracking-wider">
                     {LOADING_TITLE}
                 </h2>
                 
-                {/* 흐르는 텍스트 (보라색) - 왼쪽에서 시작 */}
+                {/* 흐르는 텍스트 (연두색) - 왼쪽에서 시작 */}
                 <div className="marquee-container-new">
-                    <div className="marquee-text-new text-purple-600">
+                    <div className="marquee-text-new text-green-400">
                         {LOADING_TEXT}
                     </div>
                 </div>

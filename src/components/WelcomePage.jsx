@@ -42,31 +42,26 @@ function WelcomePage({ onScrollToMain, onDevButtonClick }) {
     }, [onScrollToMain]);
 
     return (
-        <div className="min-h-screen w-full flex flex-col justify-center items-center bg-gradient-to-br from-purple-50 via-white to-indigo-50 relative overflow-hidden">
+        <div className="min-h-screen w-full flex flex-col justify-center items-center relative overflow-hidden" style={{ backgroundColor: '#f9f9f9' }}>
             {/* 상단 메뉴바 */}
             <TopMenuBar onHomeClick={() => {}} />
             
             {/* 배경 이미지 - absolute로 배경처럼 배치 */}
             <img 
-                src="/images/welcomePage.png" 
+                src="/images/welcomePage2.png" 
                 alt="Welcome" 
-                className="absolute w-[552px] h-[552px] md:w-[862px] md:h-[862px] object-contain opacity-90 left-1/3 top-1/2 -translate-y-1/2" 
+                className="absolute w-[662px] h-[662px] md:w-[1034px] md:h-[1034px] object-contain opacity-90 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" 
             />
             
             {/* 메인 타이틀 - 이미지 위에 올라감 */}
             <div className="absolute bottom-20 left-8 md:left-16 text-left px-4 z-10 max-w-2xl">
-                <h1 className="text-1xl md:text-2xl font-bold mb-4 text-gray-800 leading-tight">
+                <h1 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 leading-tight tracking-widest">
                     꼭 다시 만나고 싶은 분이 계신가요?<br />
                     더 이상 고민하지 말고 CROSSTALK
                 </h1>
-                <p className="text-sm md:text-base text-gray-500 font-light tracking-wide">
+                <p className="text-sm md:text-base text-gray-500 font-light tracking-widest">
                     과거 연인과의 재회 솔루션에 최적화 연애 컨설팅 AI 모델
                 </p>
-            </div>
-            {/* 스크롤 안내 */}
-            <div className="flex flex-col items-center text-gray-500 mb-12 relative z-10">
-                <p className="text-sm mb-2">아래로 스크롤하세요</p>
-                <ArrowDown size={32} className="scroll-arrow" />
             </div>
 
             {/* 개발자 숨은 버튼 (왼쪽 끝, 세로 7개, 초기 투명) */}
