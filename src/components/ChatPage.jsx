@@ -104,7 +104,7 @@ function ChatPage({ messages, setMessages, activeScenarioIndex, scenarios, onExi
                         <img
                             src="/images/Layer1.png"
                             alt="Logo"
-                            className="h-8 cursor-pointer"
+                            className="h-12 cursor-pointer"
                         />
                     </div>
 
@@ -207,8 +207,8 @@ function ChatPage({ messages, setMessages, activeScenarioIndex, scenarios, onExi
 
                     {/* 채팅 메시지 (시작 후에만) */}
                     {hasStarted && (
-                        <div className="absolute top-0 left-0 right-0 bottom-0 overflow-y-auto pl-48 pr-20 pt-8">
-                            <div className="space-y-4 pb-4 max-w-3xl ml-20">
+                        <div className="absolute top-0 left-0 right-0 bottom-0 overflow-y-auto pl-32 pr-8 pt-8">
+                            <div className="space-y-4 pb-4 max-w-4xl ml-8">
                                 {messages.map((msg, index) => (
                                     <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                                         {msg.type === 'image' ? (
@@ -221,7 +221,7 @@ function ChatPage({ messages, setMessages, activeScenarioIndex, scenarios, onExi
                                             </div>
                                         ) : (
                                             <div
-                                                className={`relative p-4 max-w-xs md:max-w-sm break-words ${
+                                                className={`relative p-4 max-w-xs break-words ${
                                                     msg.sender === 'user' 
                                                     ? 'bg-gray-300 text-gray-900 rounded-2xl rounded-tr-sm' 
                                                     : 'bg-lime-200 text-gray-900 rounded-2xl rounded-tl-sm'
